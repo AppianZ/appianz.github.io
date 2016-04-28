@@ -244,18 +244,18 @@
       
         
           
-            <p><img src="http://7xqsim.com1.z0.glb.clouddn.com/filter.png" alt="pic"></p>
-<p>在这个教程中，我们将会通过几个例子，了解和学习VueJs的过滤器。我们参考了一些比较完善的过滤器，比如orderBy 和 filterBy。而且我们可以链式调用过滤器，一个接一个过滤。因此，我们可以定义我们自己的过滤器在我们的Vue实例中。</p>
+            <p>在这个教程中，我们将会通过几个例子，了解和学习VueJs的过滤器。我们参考了一些比较完善的过滤器，比如orderBy 和 filterBy。而且我们可以链式调用过滤器，一个接一个过滤。因此，我们可以定义我们自己的过滤器在我们的Vue实例中。</p>
 <p>阅读这个教程的前提是你对Vue已经有了基本的语法基础。</p>
 <h3 id="VueJs中的过滤器基础"><a href="#VueJs中的过滤器基础" class="headerlink" title="VueJs中的过滤器基础"></a>VueJs中的过滤器基础</h3><p>过滤器是一个通过输入数据，能够及时对数据进行处理并返回一个数据结果的简单函数。Vue有很多很便利的过滤器，可以参考官方文档，过滤器通常会使用管道标志 “ | ”， 比如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; msg | uppercase  &#125;&#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 'abc' =&gt; 'ABC'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; msg | uppercase  &#125;&#125;</span><br><span class="line"> <span class="comment">// 'abc' =&gt; 'ABC'</span></span><br></pre></td></tr></table></figure>
 <p>在上述的例子中，在插值的时候，使用了Vue的一个uppercase过滤器，msg可以写死，也可以利用用户输入来改变msg的值。</p>
 <blockquote>
 <p> uppercase过滤器 : 将输入的字符串转换成大写字母的过滤器。</p>
 </blockquote>
 <h3 id="链式过滤"><a href="#链式过滤" class="headerlink" title="链式过滤"></a>链式过滤</h3><p>VueJs允许你链式调用过滤器，简单的来说，就是一个过滤器的输出成为下一个过滤器的输入，然后再次过滤。接下来，我们可以想象一个比较简答的例子，使用了Vue的 filterBy + orderBy 过滤器来过滤所有商品products。过滤出来的产品是属于电器类商品，并且按电器字母排序。</p>
 <blockquote>
-<p>filterBy过滤器 : 过滤器的值必须是一个数组，filterBy + 过滤条件。<br>过滤条件是：‘string || function’ + in ‘optionKeyName’<br>orderBy过滤器 : 过滤器的值必须是一个数组，orderBy + 过滤条件。<br>过滤条件是：‘string || array ||function’ +  ‘order ≥ 0 为升序 ||  order &lt; 0 为降序’</p>
+<p>filterBy过滤器 : 过滤器的值必须是一个数组，filterBy + 过滤条件。<br>过滤条件是：‘string || function’ + in ‘optionKeyName’</p>
+<p>orderBy过滤器 : 过滤器的值必须是一个数组，orderBy + 过滤条件。<br>过滤条件是：‘string || array ||function’ +  ‘order ≥ 0 为升序 ||  order &lt; 0 为降序’</p>
 </blockquote>
 <p>接下来，我们可以看下第二个例子：<br>我们有一个商品数组products，我们希望遍历这个数组，并把他们打印成一张清单，这个用v-for很容易实现。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> &lt;li v-<span class="keyword">for</span>=<span class="string">"product in products"</span>&gt;</span><br><span class="line">      &#123;&#123; product.name | capitalize &#125;&#125; - &#123;&#123; product.price | currency &#125;&#125;</span><br><span class="line">&lt;<span class="regexp">/li&gt;</span></span><br></pre></td></tr></table></figure>
@@ -271,7 +271,7 @@
 <p>上面的例子，就是用filterBy 过滤在 ‘category’ 和 ‘name’ 中含有’electronics’ 关键字的列表。</p>
 <p>最后我们还需要将这个列表用字母进行排序。我们可以在 filterBy 过滤器的基础上，链式调用orderBy 过滤器。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">       &lt;li v-for="product in products</span><br><span class="line">                   | filterBy 'electronics' in 'category'</span><br><span class="line">                   | orderBy  'name' "</span><br><span class="line">       &gt;</span><br><span class="line">            &#123;&#123; product.name | capitalize &#125;&#125; - &#123;&#123; product.price | currency &#125;&#125;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br></pre></td></tr></table></figure>
-<p>orderBy 的排序方式默认是升序，如果想要降序，只需要加一个小于0的参数：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;li v-for="product in products</span><br><span class="line">            | filterBy 'electronics' in 'category'</span><br><span class="line">            | orderBy  'name'  -1 "</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
+<p>orderBy 的排序方式默认是升序，如果想要降序，只需要加一个小于0的参数：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;li v-for="product in products</span><br><span class="line">       | filterBy 'electronics' in 'category'</span><br><span class="line">       | orderBy  'name'  -1 "</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
 <h3 id="自定义过滤器"><a href="#自定义过滤器" class="headerlink" title="自定义过滤器"></a>自定义过滤器</h3><p>虽然VueJs给我们提供了很多强有力的过滤器，但有时候还是不够。值得庆幸的，Vue给我们提供了一个干净简洁的方式来定义我们自己的过滤器，之后我们就可以利用管道 “ | ” 来完成过滤。</p>
 <p>定义一个全局的自定义过滤器，需要使用Vue.filter()构造器。这个构造器需要两个参数。</p>
 <blockquote>
