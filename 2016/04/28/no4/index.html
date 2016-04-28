@@ -66,7 +66,7 @@
 <meta property="og:description" content="Vue是一个小巧轻便的JavaScript库。它有一个简单易懂的API，能够让开发者在开发web应用的时候更加简易便捷。实际上，一直让Vue引以为豪的是它的便捷性、执行力、灵活性。这篇文章，会将Vue与一些其他相似的库，比如Angular、React等一些比较流行的框架进行比较，体现它们的共通点和差别。
 这篇教程的目的就是通过一些例子，让你能够概览一些基本的概念和特性。在接下来的其他教程里，你会学">
 <meta property="og:image" content="http://7xqsim.com1.z0.glb.clouddn.com/%E5%AF%BF%E5%8F%B8.jpg?imageView2/1/w/320/h/260">
-<meta property="og:updated_time" content="2016-04-28T13:14:50.467Z">
+<meta property="og:updated_time" content="2016-04-28T13:40:05.519Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始学Vue">
 <meta name="twitter:description" content="Vue是一个小巧轻便的JavaScript库。它有一个简单易懂的API，能够让开发者在开发web应用的时候更加简易便捷。实际上，一直让Vue引以为豪的是它的便捷性、执行力、灵活性。这篇文章，会将Vue与一些其他相似的库，比如Angular、React等一些比较流行的框架进行比较，体现它们的共通点和差别。
@@ -245,8 +245,9 @@
 <h3 id="利用new-Vue-创建一个Vue实例"><a href="#利用new-Vue-创建一个Vue实例" class="headerlink" title="利用new Vue()创建一个Vue实例"></a>利用new Vue()创建一个Vue实例</h3><p>我们可以先初始化一个html页面，然后我们需要引入Vue 的 js 文件。引入的方式有很多，我们可以在script中引入Vue的cdn，或者去官网上下载Vue的min.js，或者用 npm 安装一个Vue的依赖。方便起见，本文中就用cdn引入。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">      &lt;html&gt;</span><br><span class="line">            &lt;head&gt;</span><br><span class="line">                  &lt;title&gt;从零开始学Vue&lt;/title&gt;</span><br><span class="line">            &lt;/head&gt;</span><br><span class="line">      &lt;body&gt;</span><br><span class="line">            &lt;script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.js"&gt;&lt;/script&gt;</span><br><span class="line">      &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>当你在开发过程中，确保你使用的是没有压缩过的版本</p>
+<p>当你在开发过程中，确保你使用的是没有压缩过的版本，因为没有压缩的版本会提供有用的详细的警告，将会给你的代码书写节省很多时间。</p>
 </blockquote>
+<p>我们先在body里面写入一个div，并且创建一个Vue实例，然后将实例和div绑定起来。<br>当你创建一个新的Vue实例的时候要使用Vue()构造器，然后在你的实例中指出你的挂载点。这个挂载点就是你想要划分出来的Vue实例的边界。</p>
 
       
     </div>
