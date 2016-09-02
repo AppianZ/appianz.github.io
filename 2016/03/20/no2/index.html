@@ -86,7 +86,7 @@
 <meta property="og:image" content="http://7xqsim.com1.z0.glb.clouddn.com/2-19.jpg">
 <meta property="og:image" content="http://7xqsim.com1.z0.glb.clouddn.com/2-20.jpg">
 <meta property="og:image" content="http://7xqsim.com1.z0.glb.clouddn.com/2-21.jpg">
-<meta property="og:updated_time" content="2016-03-29T06:29:54.287Z">
+<meta property="og:updated_time" content="2016-09-02T05:34:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue动态组件之表单的CURD">
 <meta name="twitter:description" content="我在Vue动态组件上的坑上重复踩了两次，一模一样的两次思考过程。我想，这个重复思考的过程并不是偶然，说明是很有必要讨论一下这个问题的。那么为了这个意义，我来说一下最近遇到的问题，有关于『 Vue动态组件 』的问题。">
@@ -256,61 +256,36 @@
       
 
       
-        <p>我在Vue动态组件上的坑上重复踩了两次，一模一样的两次思考过程。<br>我想，这个重复思考的过程并不是偶然，说明是很有必要讨论一下这个问题的。<br>那么为了这个意义，我来说一下最近遇到的问题，有关于『 Vue动态组件 』的问题。</p>
-<div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-%E5%A4%B4%E5%9B%BE1.jpg?imageView2/1/w/500/h/290" alt="pic"><br></div>
-
-<a id="more"></a>
-<div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-%E5%A4%B4%E5%9B%BE2.jpg?imageView2/1/w/500/h/290" alt="pic"><br></div>
-
-<p>由于本人平时经常做的事就是操作表单，Vue的数据绑定和样式绑定等特别适合我现在的开发模式。但是表单常出现的CURD，就不是简单的双向绑定那么简单的操作了。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-1.jpg" alt="pic"><br></div><br>首先对想要实现的功能进行简短的描述：由于模板数据的Keyword是动态添加的，需要写一条就增加一条keyword记录并输出，而输出的keyword需要可以进行修改和删除操作；在进行修改操作的时候，选中的记录会绑定到输入框中，在输入框中进行修改后，能实现双向绑定到列表中的数据上；删除操作，就是删除当前选中的记录；最后点击提交的时候要能够把所有的keyword的作为一个数组，添加到目标对象中去。</p>
+        <p>我在Vue动态组件上的坑上重复踩了两次，一模一样的两次思考过程。<br>我想，这个重复思考的过程并不是偶然，说明是很有必要讨论一下这个问题的。<br>那么为了这个意义，我来说一下最近遇到的问题，有关于『 Vue动态组件 』的问题。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-%E5%A4%B4%E5%9B%BE1.jpg?imageView2/1/w/500/h/290" alt=""><br><a id="more"></a></p>
+<p><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-%E5%A4%B4%E5%9B%BE2.jpg?imageView2/1/w/500/h/290" alt=""><br>由于本人平时经常做的事就是操作表单，Vue的数据绑定和样式绑定等特别适合我现在的开发模式。但是表单常出现的CURD，就不是简单的双向绑定那么简单的操作了。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-1.jpg" alt=""></p>
+<p>首先对想要实现的功能进行简短的描述：由于模板数据的Keyword是动态添加的，需要写一条就增加一条keyword记录并输出，而输出的keyword需要可以进行修改和删除操作；在进行修改操作的时候，选中的记录会绑定到输入框中，在输入框中进行修改后，能实现双向绑定到列表中的数据上；删除操作，就是删除当前选中的记录；最后点击提交的时候要能够把所有的keyword的作为一个数组，添加到目标对象中去。</p>
 <p>这是最简单不过的增删查改，用jQuery来解决的时候，考验的就是对数组结构的操作。但是如果要把他写成组件，将面临『动态组件』的问题。</p>
 <p>我一开始思考这个问题的时候，并不是打算将所有的keyword作为一个列表输出，然后在列表上进行修改和删除操作。而是打算只要点击“添加关键字”，就动态插入输入框，并为每个输入框绑定v-model，这样就能够实现实时的删除和修改操作。</p>
 <p>——————–!!!然而这样的思路是错误的!!!——————–</p>
-<p>因为思路是错误的，所以按照错误的思路，第一步想要实现的就是动态生成组件。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-2.jpg" alt="pic"><br></div><br>这是html部分， 在父级，主要是一个div用来插入组件，一个button用来触发插入事件。</p>
-<p>在组件部分，主要是一个header用来触发一个测试点击事件，用来测试是否能够调用组件的methods，并且有一个img标签，用来测试是否能够读取构造组件时候的data。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-3.jpg" alt="pic"><br></div><br>这是js部分，先是创建了一个组件about的构造器，它对应的组件id是html中的#about，构造组件的data只能是一个function，真正的data可以作为一个对象写在function的return中。我们现在构造的这个about组件中的data返回的是一个img的src，它的methods是点击之后log。</p>
+<p>因为思路是错误的，所以按照错误的思路，第一步想要实现的就是动态生成组件。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-2.jpg" alt=""><br>这是html部分， 在父级，主要是一个div用来插入组件，一个button用来触发插入事件。</p>
+<p>在组件部分，主要是一个header用来触发一个测试点击事件，用来测试是否能够调用组件的methods，并且有一个img标签，用来测试是否能够读取构造组件时候的data。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-3.jpg" alt="pic"><br>这是js部分，先是创建了一个组件about的构造器，它对应的组件id是html中的#about，构造组件的data只能是一个function，真正的data可以作为一个对象写在function的return中。我们现在构造的这个about组件中的data返回的是一个img的src，它的methods是点击之后log。</p>
 <p>在model中注册了组件about，使用构造函数new了一个about。并将new出来的about组件手动挂载（$mount）到model实例中去，然后再在相应的dom结构（#main）中插入（$appendTo）组件。这样每次点击“添加组件”按钮的时候就能够，新注册一个about组件，并手动挂载后插入。</p>
-<p>这样就实现动态生成组件，但是这样生成的组件只是简单的进行数据渲染，而并不存在表单操作。所以离一开始我的错误思路只差一步，那就是给插入的组件进行双向绑定。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-4.jpg" alt="pic"><br></div><br>这里顺便一提，对于上传到七牛上的图片文件的在线链接，能够利用在链接后面增加参数，达到压缩图片的效果。如上图，关键字就是『 ?imageView2/1 』，之后的参数『w』『h』和『q』是设置宽、高和图片质量的参数。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-5.jpg" alt="pic"><br></div><br>这就是实现的效果，一开始只有一个按钮，点击按钮之后，动态插入了组件about。</p>
+<p>这样就实现动态生成组件，但是这样生成的组件只是简单的进行数据渲染，而并不存在表单操作。所以离一开始我的错误思路只差一步，那就是给插入的组件进行双向绑定。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-4.jpg" alt="pic"><br>这里顺便一提，对于上传到七牛上的图片文件的在线链接，能够利用在链接后面增加参数，达到压缩图片的效果。如上图，关键字就是『 ?imageView2/1 』，之后的参数『w』『h』和『q』是设置宽、高和图片质量的参数。<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-5.jpg" alt="pic"><br>这就是实现的效果，一开始只有一个按钮，点击按钮之后，动态插入了组件about。</p>
 <p>利用extend 、$mount、 $appendTo实现了动态插入组件，之后我又新建了一个demo用于实现动态组件的双向绑定。</p>
-<p>先上一下效果图，然后就会知道这样做的思路是多么的愚蠢。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-6.jpg" alt="pic"><br></div><br>ps:输入框中的内容纯粹是为了测试用，下同~</p>
-<p>第一步，页面自带一个原始的表单，表单包括两个项目，学校名称和学校网址。这个表单绑定的是我的数组对象的第0个元素。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-7.jpg" alt="pic"><br></div><br>第二步，当我点击“添加组件”按钮之后，我会动态插入一个表单，在数组对象中push一个空对象，并log出我的对象。</p>
-<p>我插入的表单组件中的项目依然是学校名称和学校网址，并且我让插入的表单组件的输入框绑定我数组的第（length-1）个元素。这样我在输入框中进行的数据操作能够通过双向绑定写入目标对象。在这一步，我在输入框输入的是“集美大学”和”www.hao123.com”。到这里看上去似乎一切都是正常的，接下来，肯定会需要再次进行push操作。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-8.jpg" alt="pic"><br></div><br>第三步，再次点击“添加组件”按钮之后，依然是动态插入了一个数组，并且数组对象中push了一个空对象。数组长度为3。</p>
+<p>先上一下效果图，然后就会知道这样做的思路是多么的愚蠢。<br>  <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-6.jpg" alt="pic"><br>ps:输入框中的内容纯粹是为了测试用，下同~</p>
+<p>第一步，页面自带一个原始的表单，表单包括两个项目，学校名称和学校网址。这个表单绑定的是我的数组对象的第0个元素。<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-7.jpg" alt="pic"><br>第二步，当我点击“添加组件”按钮之后，我会动态插入一个表单，在数组对象中push一个空对象，并log出我的对象。</p>
+<p>我插入的表单组件中的项目依然是学校名称和学校网址，并且我让插入的表单组件的输入框绑定我数组的第（length-1）个元素。这样我在输入框中进行的数据操作能够通过双向绑定写入目标对象。在这一步，我在输入框输入的是“集美大学”和”www.hao123.com”。到这里看上去似乎一切都是正常的，接下来，肯定会需要再次进行push操作。<br>  <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-8.jpg" alt="pic"><br>第三步，再次点击“添加组件”按钮之后，依然是动态插入了一个数组，并且数组对象中push了一个空对象。数组长度为3。</p>
 <p>我们可以从控制台看出，我的数组对象是正确的。第0个元素是“厦门大学”，第1个元素是“集美大学”。值得一提的是由于log的操作是在点击“添加组件”，然后插入空对象之后触发的，所以我现在新输入的数组的第三个元素“123”并没有在控制台中输出，但是我只要在输入框中进行数据操作，实际上它是写入目标数组的，并不是数组对象的第3个元素没有写入。</p>
 <p>同时，注意页面上动态组件的变化，当我在第三个表单中填写“123”和“456”的时候，第二个表单的内容也发生的相应的变化，一方面说明，我的双向绑定是有成功写入目标数组的，另一方面，说明表单组件的输入框如果绑定的是第（length-1）个的数组元素的话，length的值也是随着数组变化而变化的。所以会出现第二个表单的内容会跟随我在第三个表单的输入框中的输入值进行动态变化。</p>
 <p>这里会有几个疑问：</p>
 <p>1.有人会认为，【反正提交给后台的数组是正确的不就好了吗】，那么要做到这样的前提就是【每一次的操作都是准确无误的操作】。因为现在这样，已经无法做到删除和修改。</p>
 <p>2.有人会认为，【只要每次给输入框绑定事先经过计算的（length-1）的结果不就好了吗】，那么为了这个要求，需要重新构造对象的属性。这个对象会在原来的“学校名称”和“学校网址”的基础上再多一个属性比如叫“currentLength”，专门用来记录创建对象那个时刻的（length-1）的结果，比如“集美大学”的兄弟属性“currentLength”就应该为1，“123”的兄弟属性“currentLength”就应该为2。但是我在传json给后台的时候，并不需要这个“currentLength”，那么又要重新创建一个对象。这样就失去双向绑定可以不用构造对象的意义了。</p>
 <p>3.有人会认为，【可能会需要一个提交当前表单的操作】，这个是没有必要的操作，因为双向绑定，本身就是动态写入的。只要你在绑定的输入框中输入相应的数据，原先的数组对象的元素都会改变的。</p>
-<p>我们来看下这个实现动态绑定组件的代码吧~</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-9.jpg" alt="pic"><br></div><br>这是html的代码，父级#main中本身就有一个section存放表单，表单的输入框绑定的是目标对象companies的第0个元素。组件部分绑定的是目标对象的第（length-1）个对象。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-10.jpg" alt="pic"><br></div><br>这是js的代码，构建组件的data的时候，要先让companies从model实例中传过来，用一个新的对象com来存。在父级#main的button触发了点击事件之后，先push了一个空对象，然后用之前的$mount进行手动挂载，最后打印当前数组。</p>
+<p>我们来看下这个实现动态绑定组件的代码吧~<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-9.jpg" alt="pic"><br>这是html的代码，父级#main中本身就有一个section存放表单，表单的输入框绑定的是目标对象companies的第0个元素。组件部分绑定的是目标对象的第（length-1）个对象。<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-10.jpg" alt="pic"><br>这是js的代码，构建组件的data的时候，要先让companies从model实例中传过来，用一个新的对象com来存。在父级#main的button触发了点击事件之后，先push了一个空对象，然后用之前的$mount进行手动挂载，最后打印当前数组。</p>
 <p>思考这个问题，思考了好几个小时，连次晚饭的时候都在想啊！！！依稀记得那天吃的西北拉面。就连跟柯哲吃饭的时候，柯哲问我，”明天学校的考试是最后一科吗“，我都懒得回答，只是点了个头。我想，柯哲当时肯定心想(′◔‸◔`) “这个傻×”</p>
 <p>——————–!!!然而接下来的思路是正确的!!!——————–</p>
 <p>发现不能利用动态组件来解决表单的问题，所以就换一个思路，固定一个表单，而不需要动态添加表单。另外设置一个表单显示目标数组，然后把需要进行操作的对象绑定到那个固定的表单中去。</p>
-<p>话不多说，举一个例子，&lt;动态添加单项选择题的选项&gt; ，先上效果图。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-11.jpg" alt="pic"><br></div><br>我在第一个红框中输入我要录入的信息，点击“添加一个选项”按钮，然后能够第二个红框中进行动态渲染我的目标对象中的每一个元素。在点击“修改”按钮后，能够将点击的这个元素动态渲染到第一个红框中的表单中，这样就能够通过输入框进行实时更新数据操作。在点击“删除”按钮后，能够删除当前元素。需要明确的一点就是，第二个红框中的列表显示的每一个框，就是我【当前目标数组中的实时元素】。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-12.jpg" alt="pic"><br></div><br>如图，我先添加了B和C两个选项。具体的操作就是在输入框中输入数据，然后点击“新增一个选项”，就能够在底下的显示区域动态渲染每个选项。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-13.jpg" alt="pic"><br></div><br>如果我点击了”编辑“按钮，当前元素就会被动态渲染到输入框中。如果我在输入框进行修改，底下的显示区域也是实时动态修改的。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-14.jpg" alt="pic"><br></div><br>如果我点击了”删除“按钮，当前元素就会从目标对象中移除。</p>
-<p>接下来看下代码：</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-15.jpg" alt="pic"><br></div><br>这是html代码，父级中的两个输入框绑定的对象是newoption，这个对象就像是一个中介，如果需要push新对象到目标数组，就先把值写入newoption，然后把newoption的值push到目标数组中去。如果需要修改目标数组的元素，就把需要修改的元素的值传给newoption，然后通过和newoption绑定的输入框进行数据渲染和修改。</p>
-<p>其中#table的作用就是用一个v-for循环来动态输出目标对象的每个元素，目标对象就是list.options。并且每个元素都有”编辑“和”删除“操作。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-16.jpg" alt="pic"><br></div><br>这是js代码中的数据部分，其中options是我的目标数组对象。而newoption是我的中介对象。</p>
-<p>newoption对象会动态存储我在输入框中输入的数据。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-17.jpg" alt="pic"><br></div><br>这是在点击”增加一个选项“的时候触发的事件。</p>
-<p>把newoption中的值push进目标数组。此时的this的指向是model实例。注意push的写法。当push成功后，选项列表是能够马上动态渲染options的元素的（这个点我强调了好几次，Vue的双向绑定）。插入之后不需要对newoption进行初始化。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-18.jpg" alt="pic"><br></div></p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-19.jpg" alt="pic"><br></div><br>这是在点击”编辑“的时候触发的事件。</p>
-<p>把options对应下标的元素传给newoption，用于进行动态修改。$index.指的就是循环中的”op“的下标。此时的newoption和options[$index]都是指向同一个元素。</p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-20.jpg" alt="pic"><br></div></p>
-<p><div align="center"><br>      <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-21.jpg" alt="pic"><br></div><br>这是在点击”删除“的时候触发的事件。</p>
+<p>话不多说，举一个例子，&lt;动态添加单项选择题的选项&gt; ，先上效果图。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-11.jpg" alt="pic"><br>我在第一个红框中输入我要录入的信息，点击“添加一个选项”按钮，然后能够第二个红框中进行动态渲染我的目标对象中的每一个元素。在点击“修改”按钮后，能够将点击的这个元素动态渲染到第一个红框中的表单中，这样就能够通过输入框进行实时更新数据操作。在点击“删除”按钮后，能够删除当前元素。需要明确的一点就是，第二个红框中的列表显示的每一个框，就是我【当前目标数组中的实时元素】。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-12.jpg" alt="pic"><br>如图，我先添加了B和C两个选项。具体的操作就是在输入框中输入数据，然后点击“新增一个选项”，就能够在底下的显示区域动态渲染每个选项。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-13.jpg" alt="pic"><br>如果我点击了”编辑“按钮，当前元素就会被动态渲染到输入框中。如果我在输入框进行修改，底下的显示区域也是实时动态修改的。<br>  <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-14.jpg" alt="pic"><br>如果我点击了”删除“按钮，当前元素就会从目标对象中移除。</p>
+<p>接下来看下代码：<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-15.jpg" alt="pic"><br>这是html代码，父级中的两个输入框绑定的对象是newoption，这个对象就像是一个中介，如果需要push新对象到目标数组，就先把值写入newoption，然后把newoption的值push到目标数组中去。如果需要修改目标数组的元素，就把需要修改的元素的值传给newoption，然后通过和newoption绑定的输入框进行数据渲染和修改。</p>
+<p>其中#table的作用就是用一个v-for循环来动态输出目标对象的每个元素，目标对象就是list.options。并且每个元素都有”编辑“和”删除“操作。<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-16.jpg" alt="pic"><br>这是js代码中的数据部分，其中options是我的目标数组对象。而newoption是我的中介对象。</p>
+<p>newoption对象会动态存储我在输入框中输入的数据。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-17.jpg" alt="pic"><br>这是在点击”增加一个选项“的时候触发的事件。</p>
+<p>把newoption中的值push进目标数组。此时的this的指向是model实例。注意push的写法。当push成功后，选项列表是能够马上动态渲染options的元素的（这个点我强调了好几次，Vue的双向绑定）。插入之后不需要对newoption进行初始化。<br><img src="http://7xqsim.com1.z0.glb.clouddn.com/2-18.jpg" alt="pic"><br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-19.jpg" alt="pic"><br>这是在点击”编辑“的时候触发的事件。</p>
+<p>把options对应下标的元素传给newoption，用于进行动态修改。$index.指的就是循环中的”op“的下标。此时的newoption和options[$index]都是指向同一个元素。<br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-20.jpg" alt="pic"><br> <img src="http://7xqsim.com1.z0.glb.clouddn.com/2-21.jpg" alt="pic"><br>这是在点击”删除“的时候触发的事件。</p>
 <p>”op“指的是当前在循环中渲染的元素，把当前的元素对象$remove了，就完成了删除的操作。</p>
 <p>表单中的其他的数据渲染不存在数组的增删查改，所以就不详细说明了。点击网页上的”提交“按钮的操作只需要把data中的list对象通过ajax传给后台就好，并不需要自己构造数组对象。</p>
 <p>这样才能算是实现了一个表单最基本的动态绑定。</p>
