@@ -1528,7 +1528,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff9657;
+  background: #85e554;
 }
 .sidebar-nav {
   margin: 0 0 20px;
@@ -2305,6 +2305,6 @@ ul li {
   }
 }
 .main-inner {
-  margin: 0 auto;
   max-width: 700px !important;
+  width: auto !important;
 }
